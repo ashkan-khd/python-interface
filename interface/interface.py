@@ -1,3 +1,4 @@
+from abc import ABCMeta
 from collections import defaultdict
 from operator import attrgetter, itemgetter
 from textwrap import dedent
@@ -424,7 +425,7 @@ class ImplementsMeta(type):
 
         newtype = super(ImplementsMeta, mcls).__new__(mcls, name, bases, clsdict)
 
-        if interfaces:
+        if interfaces or name == 'Abstract':
             # Don't do checks on the types returned by ``implements``.
             return newtype
 
@@ -593,3 +594,10 @@ def _make_implements():
 
 implements = _make_implements()
 del _make_implements
+
+
+class AbstractMeta(ImplementsMeta, ABCMeta):
+    pass
+
+class Abstract(metaclass=AbstractMeta):
+    pass
