@@ -428,6 +428,9 @@ class ImplementsMeta(type):
         if interfaces or name == 'Abstract':
             # Don't do checks on the types returned by ``implements``.
             return newtype
+        
+        if Abstract in newtype.__bases__:
+            return newtype
 
         errors = []
         default_impls = {}
